@@ -1,26 +1,16 @@
 import { useEffect, useRef } from 'react'
-import Board from './Board'
+import Game from './Game'
 import './App.css'
 
 function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const boardRef = useRef<Board>()
+  const gameRef = useRef<Game>()
 
   useEffect(() => {
     const canvas = canvasRef.current as HTMLCanvasElement
-    const padding = 20
-    const boardSize = Math.min(window.innerWidth, window.innerHeight / 2)
-    canvas.width = boardSize
-    canvas.height = boardSize
-    // 绘制背景色
-    const board = new Board({
-      size: 11,
-      canvas,
-      padding,
-    })
-    board.init()
-    boardRef.current = board
-    // 绘制棋盘
+    const game = new Game(canvas, 11)
+    gameRef.current = game
+    game.start()
   }, [])
 
   return (
@@ -30,7 +20,7 @@ function App() {
       <div className='flex items-center justify-center mt-4'>
         <button
           className='m-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-          onClick={() => boardRef.current?.init()}
+          onClick={() => gameRef.current?.start()}
         >
           重试
         </button>
